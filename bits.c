@@ -577,17 +577,16 @@ int bitCount(int x) {
  *   Max ops: 34
  *   Rating: 10
  */
-int bitReverse(int x) {
-    int m4 = 0x0F | (0x0F << 8);
-    int m8 = 0xFF | (0xFF << 16);
-    int m16 = 0xFF | (0xFF << 8);
-    m4 = m4 | (m4 << 16);
-    int m2 = m4 ^ (m4 << 2);
-    int m1 = m2 ^ (m2 << 1);
+int bitReverse(int x)
+{
+    int m16 = (0xff << 8) | 0xff;
+    int m8  = m16 ^ (m16 << 8);
+    int m4  = m8  ^ (m8  << 4);
+    int m2  = m4  ^ (m4  << 2);
+    int m1  = m2  ^ (m2  << 1);
     x = ((x >> 1) & m1) | ((x & m1) << 1);
     x = ((x >> 2) & m2) | ((x & m2) << 2);
     x = ((x >> 4) & m4) | ((x & m4) << 4);
     x = ((x >> 8) & m8) | ((x & m8) << 8);
-    x = (x << 16) | ((x >> 16) & m16);
-    return x;
+    return (x << 16) | ((x >> 16) & m16);
 }
